@@ -15,12 +15,16 @@
     "page",
     "scroll",
     "pagescroll",
-    "animate",
+    "jump",
     "move",
     "scrollto",
     "anchor"
   ],
   "author": "Benny Bottema <benny@bennybottema.com>",
+  "contributors": {
+    "name": "Jan Kuri",
+    "url": "https://github.com/Nolanus"
+  }
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -30,8 +34,7 @@
     "url": "https://github.com/bbottema/ng2-simple-page-scroll/issues"
   },
   "homepage": "https://github.com/bbottema/ng2-simple-page-scroll#readme",
-  "dependencies": {
-  },
+  "dependencies": {},
   "peerDependencies": {
     "@angular/core": "~2.0.0-rc.1",
     "@angular/common": "~2.0.0-rc.1",
