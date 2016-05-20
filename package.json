@@ -1,15 +1,14 @@
 {
-  "name": "ng2-page-scroll",
-  "version": "1.0.0-beta.1",
-  "description": "Pure angular2 directive for scrolling to html anchors",
+  "name": "ng2-simple-page-scroll",
+  "version": "1.0.0",
+  "description": "Pure angular2 directive for instant jumping to html anchors",
   "scripts": {
     "install:typings": "./node_modules/.bin/typings install",
     "compile": "./node_modules/.bin/tsc",
-    "prepublish": "npm run install:typings && ./node_modules/.bin/tsc && node ./make.js",
-    "example": "npm install && cd example/ && npm install && npm start"
+    "prepublish": "npm run install:typings && ./node_modules/.bin/tsc && node ./make.js"
   },
-  "main": "ng2-page-scroll.js",
-  "typings": "ng2-page-scroll.d.ts",
+  "main": "ng2-simple-page-scroll.js",
+  "typings": "ng2-simple-page-scroll.d.ts",
   "keywords": [
     "angular2",
     "angularjs",
@@ -21,16 +20,16 @@
     "scrollto",
     "anchor"
   ],
-  "author": "Sebastian Fuss <sebastian.fuss@googlemail.com>",
+  "author": "Benny Bottema <benny@bennybottema.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/Nolanus/ng2-page-scroll.git"
+    "url": "https://github.com/bbottema/ng2-simple-page-scroll.git"
   },
   "bugs": {
-    "url": "https://github.com/Nolanus/ng2-page-scroll/issues"
+    "url": "https://github.com/bbottema/ng2-simple-page-scroll/issues"
   },
-  "homepage": "https://github.com/Nolanus/ng2-page-scroll#readme",
+  "homepage": "https://github.com/bbottema/ng2-simple-page-scroll#readme",
   "dependencies": {
   },
   "peerDependencies": {

@@ -18,6 +18,6 @@
   ],
   "files": [
     "./typings/browser.d.ts",
-    "./ng2-page-scroll.ts"
+    "./ng2-simple-page-scroll.ts"
   ]
 }

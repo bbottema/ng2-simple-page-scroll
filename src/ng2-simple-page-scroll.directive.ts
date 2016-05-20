@@ -1,12 +1,12 @@
 import {Directive, ElementRef, Input, Output, EventEmitter, HostListener, OnDestroy} from '@angular/core';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
-import {PageScrollConfig, IEasingFunction} from './ng2-page-scroll-config';
+import {SimplePageScrollConfig, IEasingFunction} from './ng2-simple-page-scroll-config';
 
 @Directive({
-    selector: '[pageScroll]'
+    selector: '[simplePageScroll]'
 })
-export class PageScroll implements OnDestroy {
+export class SimplePageScroll implements OnDestroy {
 
     @Input()
     public routerLink:any;
@@ -15,23 +15,23 @@ export class PageScroll implements OnDestroy {
     public href:string;
 
     @Input()
-    public pageScrollOffset:number = null;
+    public simplePageScrollOffset:number = null;
 
     @Input()
-    public pageScrollDuration:number = null;
+    public simplePageScrollDuration:number = null;
 
     @Input()
-    public pageScrollEasing:IEasingFunction = null;
+    public simplePageScrollEasing:IEasingFunction = null;
 
     @Output()
-    pageScrollFinish:EventEmitter<any> = new EventEmitter();
+    simplePageScrollFinish:EventEmitter<any> = new EventEmitter();
 
     private document:Document;
     private body:HTMLBodyElement;
     private listener:EventListenerOrEventListenerObject = (event:Event):void => {
         // Stop the scroll animation if the user interferes with it
-        if (event.type !== 'keyup' || PageScroll.interfereKeys.indexOf((<KeyboardEvent>event).keyCode) >= 0) {
-            PageScroll.stopTimers();
+        if (event.type !== 'keyup' || SimplePageScroll.interfereKeys.indexOf((<KeyboardEvent>event).keyCode) >= 0) {
+            SimplePageScroll.stopTimers();
         }
     };
 
@@ -42,11 +42,11 @@ export class PageScroll implements OnDestroy {
     constructor(private el:ElementRef, private router:Router) {
         this.document = el.nativeElement.ownerDocument;
         this.body = el.nativeElement.ownerDocument.body;
-        PageScroll.interfereEvents.forEach((event:string) => this.body.addEventListener(event, this.listener));
+        SimplePageScroll.interfereEvents.forEach((event:string) => this.body.addEventListener(event, this.listener));
     }
 
     ngOnDestroy():any {
-        PageScroll.interfereEvents.forEach((event:string) => this.body.removeEventListener(event, this.listener));
+        SimplePageScroll.interfereEvents.forEach((event:string) => this.body.removeEventListener(event, this.listener));
         return undefined;
     }
 
@@ -75,18 +75,18 @@ export class PageScroll implements OnDestroy {
             let distanceToScroll:number = targetScrollTop - this.body.scrollTop;
 
             if (distanceToScroll !== 0) {
-                PageScroll.stopTimers();
+                SimplePageScroll.stopTimers();
 
                 let startTime:number = new Date().getTime();
 
                 let intervalConf:any = {
                     startScrollTop: this.body.scrollTop,
                     targetScrollTop: distanceToScroll -
-                    (this.pageScrollOffset === null ? PageScrollConfig.defaultScrollOffset : this.pageScrollOffset),
+                    (this.simplePageScrollOffset === null ? SimplePageScrollConfig.defaultScrollOffset : this.simplePageScrollOffset),
                     startTime: startTime,
-                    easing: this.pageScrollEasing === null ? PageScrollConfig.defaultEasingFunction : this.pageScrollEasing
+                    easing: this.simplePageScrollEasing === null ? SimplePageScrollConfig.defaultEasingFunction : this.simplePageScrollEasing
                 };
-                intervalConf.duration = this.pageScrollDuration === null ? PageScrollConfig.defaultDuration : this.pageScrollDuration;
+                intervalConf.duration = this.simplePageScrollDuration === null ? SimplePageScrollConfig.defaultDuration : this.simplePageScrollDuration;
                 intervalConf.endTime = intervalConf.startTime + intervalConf.duration;
 
                 let timer:any = setInterval((intervalConf:any) => {
@@ -98,20 +98,20 @@ export class PageScroll implements OnDestroy {
                         intervalConf.duration);
 
                     if (intervalConf.endTime <= currentTime) {
-                        PageScroll.stopTimer(timer);
-                        this.pageScrollFinish.emit(null);
+                        SimplePageScroll.stopTimer(timer);
+                        this.simplePageScrollFinish.emit(null);
                     }
-                }, PageScrollConfig._interval, intervalConf);
-                PageScroll.timers.push(timer);
+                }, SimplePageScrollConfig._interval, intervalConf);
+                SimplePageScroll.timers.push(timer);
             }
         }
     }
 
     private static stopTimers():boolean {
-        if (PageScroll.timers.length > 0) {
-            PageScroll.timers.forEach((timer:any, index:number) => {
+        if (SimplePageScroll.timers.length > 0) {
+            SimplePageScroll.timers.forEach((timer:any, index:number) => {
                 clearInterval(timer);
-                PageScroll.timers.splice(index, 1);
+                SimplePageScroll.timers.splice(index, 1);
             });
             return true;
         }
@@ -120,9 +120,9 @@ export class PageScroll implements OnDestroy {
 
     private static stopTimer(timer:any):boolean {
         clearInterval(timer);
-        let index:number = PageScroll.timers.indexOf(timer);
+        let index:number = SimplePageScroll.timers.indexOf(timer);
         if (index >= 0) {
-            PageScroll.timers.splice(index, 1);
+            SimplePageScroll.timers.splice(index, 1);
             return true;
         }
         return false;

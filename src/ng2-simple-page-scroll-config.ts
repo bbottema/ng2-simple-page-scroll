@@ -11,7 +11,7 @@ export interface IEasingFunction {
     (t:number, b:number, c:number, d:number):number;
 }
 
-export class PageScrollConfig {
+export class SimplePageScrollConfig {
     private static _easingFunction:IEasingFunction = (t:number, b:number, c:number, d:number):number => {
         // Linear easing
         return c * t / d + b;
@@ -22,10 +22,10 @@ export class PageScrollConfig {
 
     // Getter and setter to avoid auto completion to suggest calling the method
     static get defaultEasingFunction():IEasingFunction {
-        return PageScrollConfig._easingFunction;
+        return SimplePageScrollConfig._easingFunction;
     }
 
     static set defaultEasingFunction(easingFunction:IEasingFunction) {
-        PageScrollConfig._easingFunction = easingFunction;
+        SimplePageScrollConfig._easingFunction = easingFunction;
     }
 }
