@@ -44,11 +44,12 @@ export class SimplePageScroll {
 
     private scrollView(anchor:string):void {
         let anchorTarget:HTMLElement = this.document.getElementById(anchor.substr(1));
-
         if (anchorTarget !== null) {
-            let targetScrollTop:number = anchorTarget.offsetTop;
-            let distanceToScroll:number = targetScrollTop - this.body.scrollTop;
-            this.body.scrollTop = anchorTarget.offsetTop - anchorTarget.scrollTop + anchorTarget.clientTop;
+            this.body.scrollTop =
+              anchorTarget.offsetTop -
+              anchorTarget.scrollTop +
+              anchorTarget.clientTop +
+              SimplePageScrollConfig.defaultScrollOffset;
         }
     }
 }
