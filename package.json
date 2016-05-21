@@ -1,6 +1,6 @@
 {
   "name": "ng2-simple-page-scroll",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pure angular2 directive for instant jumping to html anchors",
   "scripts": {
     "install:typings": "./node_modules/.bin/typings install",
