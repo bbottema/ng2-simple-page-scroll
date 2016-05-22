@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
-import {PageScroll} from 'ng2-page-scroll';
+import {SimplePageScroll} from 'ng2-simple-page-scroll';
 
 @Component({
     templateUrl: './app/contact.component.html',
-    directives: [PageScroll]
+    directives: [SimplePageScroll]
 })
 export class ContactComponent {
 
