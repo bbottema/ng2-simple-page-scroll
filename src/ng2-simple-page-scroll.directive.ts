@@ -50,6 +50,11 @@ export class SimplePageScroll {
               anchorTarget.scrollTop +
               anchorTarget.clientTop +
               SimplePageScrollConfig.defaultScrollOffset;
+            this.document.documentElement.scrollTop =
+              anchorTarget.offsetTop -
+              anchorTarget.scrollTop +
+              anchorTarget.clientTop +
+              SimplePageScrollConfig.defaultScrollOffset;
         }
     }
 }
