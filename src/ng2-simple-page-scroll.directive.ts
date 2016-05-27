@@ -45,16 +45,19 @@ export class SimplePageScroll {
     private scrollView(anchor:string):void {
         let anchorTarget:HTMLElement = this.document.getElementById(anchor.substr(1));
         if (anchorTarget !== null) {
-            this.body.scrollTop =
-              anchorTarget.offsetTop -
-              anchorTarget.scrollTop +
-              anchorTarget.clientTop +
-              SimplePageScrollConfig.defaultScrollOffset;
-            this.document.documentElement.scrollTop =
-              anchorTarget.offsetTop -
-              anchorTarget.scrollTop +
-              anchorTarget.clientTop +
-              SimplePageScrollConfig.defaultScrollOffset;
+            setScrollTop(this.body);
+            setScrollTop(this.document.documentElement);
+            setScrollTop(this.document.body.parentNode);
+        }
+        
+        function setScrollTop(container) {
+            if (container && container.scrollTop) {
+                container.scrollTop =
+                    anchorTarget.offsetTop -
+                    anchorTarget.scrollTop +
+                    anchorTarget.clientTop +
+                    SimplePageScrollConfig.defaultScrollOffset;
+            }
         }
     }
 }
