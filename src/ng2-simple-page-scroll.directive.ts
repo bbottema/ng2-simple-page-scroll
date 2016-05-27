@@ -50,7 +50,7 @@ export class SimplePageScroll {
             setScrollTop(this.document.body.parentNode);
         }
         
-        function setScrollTop(container) {
+        function setScrollTop(container:any) {
             if (container && container.scrollTop) {
                 container.scrollTop =
                     anchorTarget.offsetTop -
