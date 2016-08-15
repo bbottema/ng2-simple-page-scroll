@@ -1,7 +1,7 @@
-import {Directive, ElementRef, Input, Output, HostListener } from '@angular/core';
-import {Router} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
-import {SimplePageScrollConfig} from './ng2-simple-page-scroll-config';
+import { Directive, ElementRef, Input, Output, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+import { SimplePageScrollConfig } from './ng2-simple-page-scroll-config';
 
 @Directive({
     selector: '[simplePageScroll]'
@@ -28,11 +28,11 @@ export class SimplePageScroll {
     @HostListener('click', ['$event'])
     private handleClick(event:Event):boolean {
         if (this.routerLink) {
-            // We need to navigate their first.
-            // Navigation is handled by the routerLink directive
-            // so we only need to listen for route change
-            // Note: the change event is also emitted when navigating to the current route again
-            let subscription:Subscription = <Subscription>this.router.changes.subscribe(() => {
+            // We need to navigate there first.
+            // Navigation is handled by the routerLink directive,
+            // so we only need to listen for route change.
+            // Note: the change event is also emitted when navigating to the current route again.
+            let subscription:Subscription = <Subscription>this.router.subscribe(() => {
                 subscription.unsubscribe();
                 this.scrollView(this.href);
             });
