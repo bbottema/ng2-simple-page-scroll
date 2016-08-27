@@ -32,7 +32,7 @@ export class SimplePageScroll {
             // Navigation is handled by the routerLink directive,
             // so we only need to listen for route change.
             // Note: the change event is also emitted when navigating to the current route again.
-            let subscription:Subscription = <Subscription>this.router.subscribe(() => {
+            let subscription:Subscription = <Subscription>this.router.events.subscribe(() => {
                 subscription.unsubscribe();
                 this.scrollView(this.href);
             });
