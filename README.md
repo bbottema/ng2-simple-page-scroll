@@ -6,7 +6,8 @@
 
 # ng2-simple-page-scroll
 
-Animated "scroll to element" functionality written in pure angular2 with no additional dependencies
+Animated "scroll to element" functionality written in pure angular2 with no additional dependencies.
+Forked from the more heavy-weight [ng2-page-scroll](https://github.com/Nolanus/ng2-page-scroll) library by Nolanus.
 
 
 ## Features
