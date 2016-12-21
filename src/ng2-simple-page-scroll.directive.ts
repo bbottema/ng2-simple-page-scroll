@@ -1,63 +1,64 @@
-import { Directive, ElementRef, Input, Output, HostListener } from '@angular/core';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
-import { SimplePageScrollConfig } from './ng2-simple-page-scroll-config';
+import {Directive, Input, Output, EventEmitter, AfterViewChecked} from '@angular/core';
+import {Router, NavigationEnd, NavigationError, NavigationCancel} from '@angular/router';
+
+import {Subscription} from 'rxjs/Subscription';
+
+import {SimplePageScrollService} from './ng2-simple-page-scroll.service';
 
 @Directive({
-    selector: '[simplePageScroll]'
+    selector: '[simplePageScroll]',
+    host: { // tslint:disable-line:use-host-property-decorator
+        '(click)': 'handleClick($event)',
+    }
 })
-export class SimplePageScroll {
+export class SimplePageScroll implements AfterViewChecked {
 
     @Input()
-    public routerLink:any;
+    private routerLink: any;
 
     @Input()
-    public href:string;
+    private href: string;
 
     @Input()
-    public simplePageScrollOffset:number = null;
+    private pageScrollOffset: number = null;
 
-    private document:Document;
-    private body:HTMLBodyElement;
+    @Output()
+    public pageScrollFinish: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-    constructor(private el:ElementRef, private router:Router) {
-        this.document = el.nativeElement.ownerDocument;
-        this.body = el.nativeElement.ownerDocument.body;
+    private shouldScroll: boolean = false;
+
+    constructor(private router: Router, private simplePageScrollService: SimplePageScrollService) {
     }
 
-    @HostListener('click', ['$event'])
-    private handleClick(event:Event):boolean {
-        if (this.routerLink) {
-            // We need to navigate there first.
-            // Navigation is handled by the routerLink directive,
-            // so we only need to listen for route change.
-            // Note: the change event is also emitted when navigating to the current route again.
-            let subscription:Subscription = <Subscription>this.router.events.subscribe(() => {
-                subscription.unsubscribe();
-                this.scrollView(this.href);
+    public handleClick(clickEvent: Event): boolean { // tslint:disable-line:no-unused-variable
+        if (this.routerLink && this.router !== null && this.router !== undefined) {
+            // wait for router to finish navigating
+            // Note: the change event is also emitted when navigating to the current route again
+            let subscription: Subscription = <Subscription>this.router.events.subscribe((routerEvent) => {
+                if (routerEvent instanceof NavigationEnd) {
+                    subscription.unsubscribe();
+                    this.shouldScroll = true;
+                } else if (routerEvent instanceof NavigationError || routerEvent instanceof NavigationCancel) {
+                    subscription.unsubscribe();
+                    this.pageScrollFinish.emit(false);
+                }
             });
         } else {
-            this.scrollView(this.href);
+            // no router action; scroll immediately
+            this.scrollAndEmitEvent();
         }
         return false; // to preventDefault()
     }
 
-    private scrollView(anchor:string):void {
-        let anchorTarget:HTMLElement = this.document.getElementById(anchor.substr(1));
-        if (anchorTarget !== null) {
-            setScrollTop(this.body);
-            setScrollTop(this.document.documentElement);
-            setScrollTop(this.document.body.parentNode);
-        }
-        
-        function setScrollTop(container:any) {
-            if (container && container.scrollTop) {
-                container.scrollTop =
-                    anchorTarget.offsetTop -
-                    anchorTarget.scrollTop +
-                    anchorTarget.clientTop +
-                    SimplePageScrollConfig.defaultScrollOffset;
-            }
+    private scrollAndEmitEvent() {
+        this.simplePageScrollService.scrollToElement(this.href, this.pageScrollOffset);
+        this.shouldScroll = false;
+        this.pageScrollFinish.emit(true);
+    }
+
+    ngAfterViewChecked(): void {
+        if (this.shouldScroll) {
+            this.scrollAndEmitEvent();
         }
     }
 }

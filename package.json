@@ -1,14 +1,23 @@
 {
   "name": "ng2-simple-page-scroll",
-  "version": "1.0.3-beta",
-  "description": "Pure angular2 directive for instant jumping to html anchors",
+  "version": "2.0.0",
+  "description": "Pure angular2 directive for instant jumping to html elements",
   "scripts": {
-    "install:typings": "./node_modules/.bin/typings install",
-    "compile": "./node_modules/.bin/tsc",
-    "prepublish": "npm run install:typings && ./node_modules/.bin/tsc && node ./make.js",
-    "example": "npm install && cd example/ && npm install && npm start"
+    "compile": "npm run lint:code && ngc -p tsconfig-build.json",
+    "compile:tsc": "npm run lint && tsc -p tsconfig.json",
+    "bundle:create": "npm run bundle:clean && npm run rollup && npm run rollup:min",
+    "bundle:clean": "rimraf bundles",
+    "install:typings": "typings install",
+    "lint": "npm run lint:code && npm run lint:test",
+    "lint:code": "tslint ./src/**/*.ts -t verbose --exclude ./src/**/*.d.ts",
+    "lint:test": "tslint ./test/**/*.ts -t verbose --exclude ./test/**/*.d.ts",
+    "rollup": "rollup -c rollup.conf.js",
+    "rollup:min": "rollup -c rollup-uglify.conf.js",
+    "precompile": "npm run install:typings",
+    "prepublish": "npm run compile && npm run bundle:create"
   },
-  "main": "ng2-simple-page-scroll.js",
+  "main": "bundles/ng2-simple-page-scroll.umd.js",
+  "module": "ng2-simple-page-scroll.js",
   "typings": "ng2-simple-page-scroll.d.ts",
   "keywords": [
     "angular2",
@@ -16,8 +25,6 @@
     "page",
     "scroll",
     "pagescroll",
-    "jump",
-    "move",
     "scrollto",
     "anchor"
   ],
@@ -37,24 +44,30 @@
   "homepage": "https://github.com/bbottema/ng2-simple-page-scroll#readme",
   "dependencies": {},
   "peerDependencies": {
-    "@angular/core": "~2.0.0-rc.4",
-    "@angular/common": "~2.0.0-rc.4",
-    "@angular/compiler": "~2.0.0-rc.4",
-    "@angular/platform-browser": "~2.0.0-rc.4",
-    "@angular/router": "~3.0.0-beta.2",
-    "rxjs": "5.0.0-beta.6",
-    "zone.js": "~0.6.12"
+    "@angular/core": "~2.2.1",
+    "@angular/common": "~2.2.1",
+    "@angular/compiler": "~2.2.1",
+    "@angular/platform-browser": "~2.2.1",
+    "@angular/router": "~3.2.0",
+    "rxjs": "~5.0.0-beta.12",
+    "zone.js": "~0.6.23"
   },
   "devDependencies": {
-    "@angular/core": "~2.0.0-rc.4",
-    "@angular/common": "~2.0.0-rc.4",
-    "@angular/compiler": "~2.0.0-rc.4",
-    "@angular/platform-browser": "~2.0.0-rc.4",
-    "@angular/router": "~3.0.0-beta.2",
-    "rxjs": "5.0.0-beta.6",
-    "systemjs-builder": "^0.15.0",
-    "typescript": "1.8.9",
-    "typings": "0.7.9",
-    "zone.js": "~0.6.12"
+    "@angular/common": "~2.2.1",
+    "@angular/compiler": "~2.2.1",
+    "@angular/compiler-cli": "~2.2.1",
+    "@angular/core": "~2.2.1",
+    "@angular/platform-browser": "~2.2.1",
+    "@angular/platform-server": "~2.2.1",
+    "@angular/router": "~3.2.1",
+    "codelyzer": "^1.0.0-beta.4",
+    "rimraf": "^2.5.4",
+    "rollup": "^0.36.3",
+    "rollup-plugin-uglify": "^1.0.1",
+    "rxjs": "5.0.0-beta.12",
+    "tslint": "3.15.1",
+    "typescript": "~2.0.9",
+    "typings": "~2.0.0",
+    "zone.js": "~0.6.26"
   }
 }

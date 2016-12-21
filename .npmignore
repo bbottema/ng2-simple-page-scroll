@@ -26,9 +26,37 @@ coverage
 build/Release
 
 # Dependency directory
-# https://docs.npmjs.com/misc/faq#should-i-check-my-node-modules-folder-into-git
 node_modules
 
-# project example app
-example
+# Typings subfolder
+typings
 
+/.codeclimate.yml
+/.gitignore
+/.gitattributes
+/.npmignore
+/.travis.yml
+/.eslintignore
+/.eslintrc
+
+# Build System files
+/tslint.json
+/rollup-uglify.conf.js
+/rollup.conf.js
+/protractor.conf.js
+
+# Typescript source files
+*.ts
+!*.d.ts
+*.js.map
+!/bundles/*.js.map
+!*.metadata.json
+
+# Editor specific
+.idea
+
+# test cases
+test
+
+# project demo app
+demo
